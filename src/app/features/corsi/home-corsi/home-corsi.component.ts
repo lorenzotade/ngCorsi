@@ -16,7 +16,9 @@ export class HomeCorsiComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.getCorsi();
+
   }
 
   getCorsi(): void {

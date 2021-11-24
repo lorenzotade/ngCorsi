@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { of } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
+import { CorsiService } from 'src/app/features/corsi/corsi.service';
 
 @Component({
   selector: 'app-landing',
@@ -7,9 +10,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LandingComponent implements OnInit {
 
-  constructor() { }
+  numCorsi?: number;
+  avgLessons?: number;
+
+  constructor(
+    private corsiService: CorsiService
+  ) { }
 
   ngOnInit(): void {
+
+    this.corsiService.getNumCorsi()
+      .subscribe(num => {
+        this.numCorsi = num;
+      });
+
+    this.corsiService.getAvgLessons()
+      .subscribe(avg => {
+        this.avgLessons = avg;
+      });
+
   }
 
 }

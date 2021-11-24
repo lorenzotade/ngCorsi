@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { corsi_db, lessons_db } from 'src/db';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { tap, map } from 'rxjs/operators';
+import { tap, map, mergeMap } from 'rxjs/operators';
 import { Corso } from '../models/Corso';
 import { Lesson } from '../models/Lesson';
 
@@ -14,8 +14,10 @@ export class CorsiService {
   lessons: Lesson[] = [];
 
   private corsiSubject = new BehaviorSubject<Corso[]>(this.corsi);
+  private lezioniSubject = new BehaviorSubject<Lesson[]>(this.lessons);
 
   corsi$ = this.corsiSubject.asObservable();
+  lessons$ = this.lezioniSubject.asObservable();
 
   constructor() {
 
@@ -32,6 +34,13 @@ export class CorsiService {
       });
 
     this.getAllLessons()
+      .pipe(
+        tap(
+          lessons => {
+            this.lezioniSubject.next(lessons);
+          }
+        )
+      )
       .subscribe(res => {
         this.lessons = res;
       });
@@ -41,12 +50,6 @@ export class CorsiService {
   getCorsi(): Observable<Corso[]> {
 
     return of(corsi_db);
-
-  }
-
-  getAllLessons(): Observable<Lesson[]> {
-
-    return of(lessons_db);
 
   }
 
@@ -66,13 +69,41 @@ export class CorsiService {
 
   }
 
+  getNumCorsi(): Observable<number> {
+
+    return this.corsi$.pipe(
+      map(corsi => corsi.length)
+    );
+
+  }
+
+  getAvgLessons(): Observable<number> {
+
+    return this.lessons$.pipe(
+      mergeMap(lessons => this.getNumCorsi()
+        .pipe(
+          map(
+            numCorsi => lessons.length / numCorsi
+          )
+        )
+      )
+    );
+
+  }
+
+  getAllLessons(): Observable<Lesson[]> {
+
+    return of(lessons_db);
+
+  }
+
   getCourseLessons(id: number): Observable<Lesson[]> {
 
-    const courseLessons = this.lessons.filter(lesson => {
-      return lesson.id_course === id;
-    });
-
-    return of(courseLessons);
+    return this.lessons$.pipe(
+      map(
+        lessons => lessons.filter(lesson => lesson.id_course === id)
+      )
+    );
 
   }
 

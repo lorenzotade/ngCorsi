@@ -5,6 +5,7 @@ import { Lesson } from '../../models/Lesson';
 import { CorsiService } from '../corsi.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalCorsoComponent } from '../modal-corso/modal-corso.component';
+import { switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-detail-corso',
@@ -17,6 +18,7 @@ export class DetailCorsoComponent implements OnInit, OnDestroy {
   lessons: Lesson[] = [];
   urlId = 0;
   detailsSub?: any;
+  lessonsSub?: any;
 
   constructor(
     private corsiService: CorsiService,
@@ -29,7 +31,6 @@ export class DetailCorsoComponent implements OnInit, OnDestroy {
     this.route.paramMap.subscribe(params => {
       this.urlId = Number(params.get('id'));
       this.getDetails(this.urlId);
-      this.getCourseLessons(this.urlId);
     });
 
   }
@@ -37,15 +38,16 @@ export class DetailCorsoComponent implements OnInit, OnDestroy {
   getDetails(id: number): void {
 
     this.detailsSub = this.corsiService.getDetails(id)
-      .subscribe(res => {
-        this.corso = res;
-      });
-
-  }
-
-  getCourseLessons(id: number): void {
-
-    this.corsiService.getCourseLessons(id)
+      .pipe(
+        tap(
+          corso => {
+            this.corso = corso;
+          }
+        ),
+        switchMap(corso => {
+          return this.corsiService.getCourseLessons(corso.id);
+        })
+      )
       .subscribe(res => {
         this.lessons = res;
       });
@@ -60,6 +62,7 @@ export class DetailCorsoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
 
+    // tslint:disable-next-line: no-unused-expression
     this.detailsSub && this.detailsSub.unsubscribe();
 
   }
