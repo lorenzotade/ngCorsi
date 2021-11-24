@@ -1,0 +1,20 @@
+<mat-card *ngIf="corso">
+
+  <button mat-button (click)="openDialog()">Modifica</button>
+
+  <h2>{{corso.title}}</h2>
+
+  <h4>Durata del corso: {{lessons | sum:'duration'}} min</h4>
+
+  <img [src]="corso.image" [alt]="corso.title">
+
+  <p>{{corso.description}}</p>
+
+  <mat-list>
+    <mat-list-item
+      *ngFor="let lesson of lessons"
+    >{{lesson.title}} - {{lesson.duration}} min. </mat-list-item>
+  </mat-list>
+
+
+</mat-card>

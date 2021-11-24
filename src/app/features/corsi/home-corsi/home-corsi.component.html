@@ -1,0 +1,16 @@
+<h2>Corsi</h2>
+
+<div class="card-container">
+
+  <ng-container
+    *ngFor="let corso of corsi"
+  >
+    <mat-card [routerLink]="['/corsi', corso.id]">
+      <img mat-card-image [src]="corso.image" alt="Course Preview">
+      <mat-card-title>{{ corso.title }}</mat-card-title>
+      <mat-card-content>
+        {{ corso.description }}
+      </mat-card-content>
+    </mat-card>
+  </ng-container>
+</div>
