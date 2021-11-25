@@ -24,17 +24,15 @@ export class HomeCorsiComponent implements OnInit {
 
     this.getCorsi();
 
+    this.searchForm.valueChanges.subscribe((val: string) => {
+      this.corsi = this.corsiService.searchCorsi(val);
+    });
+
   }
 
   getCorsi(): void {
 
     this.corsi = this.corsiService.getCorsi();
-
-  }
-
-  onSubmit(): void {
-
-    this.corsi = this.corsiService.searchCorsi(this.searchForm.value);
 
   }
 

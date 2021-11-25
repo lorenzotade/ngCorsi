@@ -9,8 +9,18 @@
 }
 
 .container {
+  width: 100%;
+  display: flex;
   padding: 0 10%;
+  .main {
+    width: 80%;
+  }
+  .sidebar {
+    width: 20%;
+  }
+
 }
+
 
 h2 {
   font-size: 2rem;
