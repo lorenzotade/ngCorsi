@@ -144,4 +144,28 @@ export const lessons_db = [
   }
 ];
 
+// tslint:disable-next-line: variable-name
+export const banner_db = [
+  {
+    id: 1,
+    title: 'Lorem Ipsum',
+    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.'
+  },
+  {
+    id: 2,
+    title: 'Ciccio Pasticcio For President',
+    description: 'Vota Ciccio Pasticcio alle prossime elezioni! Finalmente un Presidente del Consiglio eletto dal popolo! Fanculo il Presidente della Repubblica e la Costituzione!'
+  },
+  {
+    id: 3,
+    title: 'Maria e le ricette vegane',
+    description: 'Maria ha deciso di preparare una ricetta vegana. Vuoi saperne di più? Clicca qui!'
+  },
+  {
+    id: 4,
+    title: 'Compra il nuovo Dyson!',
+    description: 'Il nuovo Dyson è arrivato! Vuoi saperne di più? Clicca qui!'
+  }
+];
+
 

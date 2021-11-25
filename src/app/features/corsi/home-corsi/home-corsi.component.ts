@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CorsiService } from '../corsi.service';
 import { Corso } from '../../models/Corso';
+import { Observable } from 'rxjs';
+import { Banner } from '../../models/Banner';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-home-corsi',
@@ -9,7 +12,9 @@ import { Corso } from '../../models/Corso';
 })
 export class HomeCorsiComponent implements OnInit {
 
-  corsi: Corso[] = [];
+  corsi?: Observable<Corso[]> | Observable<Banner[]>;
+
+  searchForm: FormControl = new FormControl('');
 
   constructor(
     private corsiService: CorsiService
@@ -23,10 +28,13 @@ export class HomeCorsiComponent implements OnInit {
 
   getCorsi(): void {
 
-    this.corsiService.getCorsi()
-      .subscribe(res => {
-        this.corsi = res;
-      });
+    this.corsi = this.corsiService.getCorsi();
+
+  }
+
+  onSubmit(): void {
+
+    this.corsi = this.corsiService.searchCorsi(this.searchForm.value);
 
   }
 

@@ -3,7 +3,7 @@
   <button routerLink="/corsi" mat-button>Scopri i corsi</button>
 
   <div>
-    <p>Numero di corsi: {{this.numCorsi}}</p>
-    <p>Media lezioni per corso: {{this.avgLessons}}</p>
+    <p>Numero di corsi: {{this.numCorsi | async}}</p>
+    <p>Media lezioni per corso: {{this.avgLessons | async}}</p>
   </div>
 </div>

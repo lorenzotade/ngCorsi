@@ -1,15 +1,26 @@
 <h2>Corsi</h2>
 
+<form>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Cerca un corso</mat-label>
+    <input (keyup)="onSubmit()" matInput placeholder="Nome" [formControl]="searchForm">
+  </mat-form-field>
+
+  <!-- <button mat-button type="submit">Cerca</button> -->
+
+</form>
+
 <div class="card-container">
 
   <ng-container
-    *ngFor="let corso of corsi"
+    *ngFor="let corso of corsi | async"
   >
     <mat-card [routerLink]="['/corsi', corso.id]">
-      <img mat-card-image [src]="corso.image" alt="Course Preview">
+      <img *ngIf="corso.image" mat-card-image [src]="corso.image" alt="Course Preview">
       <mat-card-title>{{ corso.title }}</mat-card-title>
       <mat-card-content>
-        {{ corso.description }}
+        {{ corso.description}}
       </mat-card-content>
     </mat-card>
   </ng-container>

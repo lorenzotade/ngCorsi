@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { corsi_db, lessons_db } from 'src/db';
+import { banner_db, corsi_db, lessons_db } from 'src/db';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map, mergeMap } from 'rxjs/operators';
 import { Corso } from '../models/Corso';
 import { Lesson } from '../models/Lesson';
+import { Banner } from '../models/Banner';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ export class CorsiService {
 
   corsi: Corso[] = [];
   lessons: Lesson[] = [];
+  banners: Banner[] = [];
 
   private corsiSubject = new BehaviorSubject<Corso[]>(this.corsi);
   private lezioniSubject = new BehaviorSubject<Lesson[]>(this.lessons);
@@ -45,6 +47,11 @@ export class CorsiService {
         this.lessons = res;
       });
 
+    this.getBanners()
+      .subscribe(res => {
+        this.banners = res;
+      });
+
    }
 
   getCorsi(): Observable<Corso[]> {
@@ -76,6 +83,38 @@ export class CorsiService {
     );
 
   }
+
+  searchCorsi(search: string): Observable<Corso[]> {
+
+    return this.corsi$.pipe(
+      map(
+        corsi => corsi.filter(
+          corso => corso.title.toLowerCase().includes(search.toLowerCase())
+        )
+      )
+    );
+
+  }
+
+  getBanners(): Observable<Banner[]> {
+
+    return of(banner_db);
+
+  }
+
+/*   getBannerCorsi(): Observable<any> {
+
+    const corsiBanner: any[] = [];
+
+    for (let i = 1; i < this.corsi.length; i+2) {
+      this.banners.forEach(banner => {
+        corsiBanner.push(banner);
+      });
+    }
+
+    return of(corsiBanner);
+
+  } */
 
   getAvgLessons(): Observable<number> {
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { CorsiService } from 'src/app/features/corsi/corsi.service';
 
@@ -10,8 +10,8 @@ import { CorsiService } from 'src/app/features/corsi/corsi.service';
 })
 export class LandingComponent implements OnInit {
 
-  numCorsi?: number;
-  avgLessons?: number;
+  numCorsi?: Observable<number>;
+  avgLessons?: Observable<number>;
 
   constructor(
     private corsiService: CorsiService
@@ -19,15 +19,9 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.corsiService.getNumCorsi()
-      .subscribe(num => {
-        this.numCorsi = num;
-      });
+    this.numCorsi = this.corsiService.getNumCorsi();
 
-    this.corsiService.getAvgLessons()
-      .subscribe(avg => {
-        this.avgLessons = avg;
-      });
+    this.avgLessons = this.corsiService.getAvgLessons();
 
   }
 
