@@ -2,20 +2,19 @@ import { Injectable } from '@angular/core';
 import { banner_db, corsi_db, lessons_db } from 'src/db';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { tap, map, mergeMap } from 'rxjs/operators';
-import { Corso } from '../models/Corso';
+import { Course } from '../models/Course';
 import { Lesson } from '../models/Lesson';
-import { Banner } from '../models/Banner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CorsiService {
 
-  corsi: Corso[] = [];
+  corsi: Course[] = [];
   lessons: Lesson[] = [];
-  banners: Banner[] = [];
+  banners: Course[] = [];
 
-  private corsiSubject = new BehaviorSubject<Corso[]>(this.corsi);
+  private corsiSubject = new BehaviorSubject<Course[]>(this.corsi);
   private lezioniSubject = new BehaviorSubject<Lesson[]>(this.lessons);
 
   corsi$ = this.corsiSubject.asObservable();
@@ -54,13 +53,13 @@ export class CorsiService {
 
    }
 
-  getCorsi(): Observable<Corso[]> {
+  getCorsi(): Observable<Course[]> {
 
     return of(corsi_db);
 
   }
 
-  getDetails(id: number): Observable<Corso> {
+  getDetails(id: number): Observable<Course> {
 
     return this.corsi$.pipe(
         map(corsi => corsi.filter(corso => corso.id === id)[0])
@@ -68,7 +67,7 @@ export class CorsiService {
 
   }
 
-  getLatestCorsi(num: number = 3): Observable<Corso[]> {
+  getLatestCorsi(num: number = 3): Observable<Course[]> {
 
     return this.corsi$.pipe(
       map(corsi => corsi.slice(-num))
@@ -84,7 +83,7 @@ export class CorsiService {
 
   }
 
-  searchCorsi(search: string): Observable<Corso[]> {
+  searchCorsi(search: string): Observable<Course[]> {
 
     return this.corsi$.pipe(
       map(
@@ -96,25 +95,11 @@ export class CorsiService {
 
   }
 
-  getBanners(): Observable<Banner[]> {
+  getBanners(): Observable<Course[]> {
 
     return of(banner_db);
 
   }
-
-/*   getBannerCorsi(): Observable<any> {
-
-    const corsiBanner: any[] = [];
-
-    for (let i = 1; i < this.corsi.length; i+2) {
-      this.banners.forEach(banner => {
-        corsiBanner.push(banner);
-      });
-    }
-
-    return of(corsiBanner);
-
-  } */
 
   getAvgLessons(): Observable<number> {
 
@@ -146,7 +131,7 @@ export class CorsiService {
 
   }
 
-  updateCorso(corso: Corso): void {
+  updateCorso(corso: Course): void {
 
     const index = this.corsi.findIndex(item => item.id === corso.id);
 

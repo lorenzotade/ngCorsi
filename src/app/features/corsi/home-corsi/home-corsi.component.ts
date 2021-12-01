@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CorsiService } from '../corsi.service';
-import { Corso } from '../../models/Corso';
+import { Course } from '../../models/Course';
 import { Observable } from 'rxjs';
-import { Banner } from '../../models/Banner';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -12,7 +11,8 @@ import { FormControl } from '@angular/forms';
 })
 export class HomeCorsiComponent implements OnInit {
 
-  corsi?: Observable<Corso[]> | Observable<Banner[]>;
+  corsi: Course[] = [];
+  banners: Course[] = [];
 
   searchForm: FormControl = new FormControl('');
 
@@ -24,15 +24,50 @@ export class HomeCorsiComponent implements OnInit {
 
     this.getCorsi();
 
+    this.getBanners();
+
+    this.insertAds();
+
     this.searchForm.valueChanges.subscribe((val: string) => {
-      this.corsi = this.corsiService.searchCorsi(val);
+      this.corsiService.searchCorsi(val)
+        .subscribe(res => {
+          this.corsi = res;
+        });
     });
 
   }
 
   getCorsi(): void {
 
-    this.corsi = this.corsiService.getCorsi();
+    this.corsiService.getCorsi()
+      .subscribe(res => {
+        this.corsi = res;
+      });
+
+  }
+
+  getBanners(): void {
+
+    this.corsiService.getBanners()
+      .subscribe(res => {
+        this.banners = res;
+      });
+
+  }
+
+  insertAds(): void {
+
+    let bannerIndex = 0;
+
+    for (let i = 2; i < this.corsi.length; i += 3) {
+
+      this.corsi.splice(i, 0, this.banners[bannerIndex]);
+
+      bannerIndex++;
+
+    }
+
+    console.log(this.corsi);
 
   }
 

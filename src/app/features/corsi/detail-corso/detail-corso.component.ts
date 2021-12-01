@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Corso } from '../../models/Corso';
+import { Course } from '../../models/Course';
 import { Lesson } from '../../models/Lesson';
 import { CorsiService } from '../corsi.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { switchMap, tap } from 'rxjs/operators';
 })
 export class DetailCorsoComponent implements OnInit, OnDestroy {
 
-  corso!: Corso;
+  corso!: Course;
   lessons: Lesson[] = [];
   urlId = 0;
   detailsSub?: any;

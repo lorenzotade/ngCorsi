@@ -14,7 +14,7 @@
 <div class="card-container">
 
   <ng-container
-    *ngFor="let corso of corsi | async"
+    *ngFor="let corso of corsi"
   >
     <mat-card [routerLink]="['/corsi', corso.id]">
       <img *ngIf="corso.image" mat-card-image [src]="corso.image" alt="Course Preview">

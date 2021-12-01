@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Corso } from '../../models/Corso';
+import { Course } from '../../models/Course';
 import { CorsiService } from '../corsi.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -11,7 +11,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class ModalCorsoComponent implements OnDestroy {
 
-  corso?: Partial<Corso>;
+  course?: Partial<Course>;
 
   detailsSub?: any;
 
@@ -39,8 +39,8 @@ export class ModalCorsoComponent implements OnDestroy {
 
   onSubmit(): void {
 
-    const updatedCorso: Corso = {
-      ...this.corso,
+    const updatedCorso: Course = {
+      ...this.course,
       ...this.formCorso.value
     };
 
@@ -54,11 +54,11 @@ export class ModalCorsoComponent implements OnDestroy {
 
     this.detailsSub = this.corsiService.getDetails(id)
       .subscribe(res => {
-        this.corso = res;
+        this.course = res;
         this.formCorso.setValue({
-          title: this.corso.title,
-          description: this.corso.description,
-          image: this.corso.image
+          title: this.course.title,
+          description: this.course.description,
+          image: this.course.image
         });
       });
 
@@ -69,7 +69,7 @@ export class ModalCorsoComponent implements OnDestroy {
     this.corsiService.getCorsi()
       .subscribe(res => {
         const newID = res.length + 1;
-        this.corso = {
+        this.course = {
           last_update: new Date(Date.now()).toLocaleString().split(',')[0],
           avg_votes: 0,
           id: newID

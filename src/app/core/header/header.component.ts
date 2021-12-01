@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalCorsoComponent } from 'src/app/features/corsi/modal-corso/modal-corso.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CorsiService } from 'src/app/features/corsi/corsi.service';
-import { Corso } from 'src/app/features/models/Corso';
+import { Course } from 'src/app/features/models/Course';
 
 @Component({
   selector: 'app-header',
@@ -11,7 +11,7 @@ import { Corso } from 'src/app/features/models/Corso';
 })
 export class HeaderComponent implements OnInit {
 
-  corsi: Corso[] = [];
+  corsi: Course[] = [];
 
   constructor(
     private dialog: MatDialog,

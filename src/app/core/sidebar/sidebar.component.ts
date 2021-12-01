@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CorsiService } from 'src/app/features/corsi/corsi.service';
-import { Corso } from 'src/app/features/models/Corso';
+import { Course } from 'src/app/features/models/Course';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,7 +9,7 @@ import { Corso } from 'src/app/features/models/Corso';
 })
 export class SidebarComponent implements OnInit {
 
-  corsi: Corso[] = [];
+  corsi: Course[] = [];
 
   constructor(
     private corsiService: CorsiService
